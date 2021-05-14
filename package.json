@@ -1,0 +1,82 @@
+{
+  "_from": "file:/tmp/iobroker.impfterminmonitor-0.0.1.tgz",
+  "_id": "iobroker.impfterminmonitor@0.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-46vN3HF0+45FkO8b487oipHPKsxCB6keWtGPR+9VDLlPv6eJ3uMJHrWEPBp112mHIc9mMRybVbKijADNAyFwcA==",
+  "_location": "/iobroker.impfterminmonitor",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "file",
+    "where": "/opt/iobroker",
+    "raw": "/tmp/iobroker.impfterminmonitor-0.0.1.tgz",
+    "rawSpec": "/tmp/iobroker.impfterminmonitor-0.0.1.tgz",
+    "saveSpec": "file:/tmp/iobroker.impfterminmonitor-0.0.1.tgz",
+    "fetchSpec": "/tmp/iobroker.impfterminmonitor-0.0.1.tgz"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "/tmp/iobroker.impfterminmonitor-0.0.1.tgz",
+  "_shasum": "053b49cdb02d44974670a3185b050639fe71e5c9",
+  "_spec": "/tmp/iobroker.impfterminmonitor-0.0.1.tgz",
+  "_where": "/opt/iobroker",
+  "author": {
+    "name": "puller23",
+    "email": "puller23@ibartels.de"
+  },
+  "bugs": {
+    "url": "https://github.com/puller23/ioBroker.impfterminmonitor/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@iobroker/adapter-core": "^2.4.0"
+  },
+  "deprecated": false,
+  "description": "impfterminmonitor",
+  "devDependencies": {
+    "@iobroker/testing": "^2.4.4",
+    "@types/chai": "^4.2.18",
+    "@types/chai-as-promised": "^7.1.4",
+    "@types/gulp": "^4.0.8",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^14.14.44",
+    "@types/proxyquire": "^1.3.28",
+    "@types/sinon": "^10.0.0",
+    "@types/sinon-chai": "^3.2.5",
+    "axios": "^0.21.1",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^7.26.0",
+    "gulp": "^4.0.2",
+    "mocha": "^8.4.0",
+    "proxyquire": "^2.1.3",
+    "sinon": "^10.0.0",
+    "sinon-chai": "^3.6.0",
+    "typescript": "^4.2.4"
+  },
+  "homepage": "https://github.com/puller23/ioBroker.impfterminmonitor",
+  "keywords": [
+    "ioBroker",
+    "template",
+    "Smart Home",
+    "home automation"
+  ],
+  "license": "MIT",
+  "main": "main.js",
+  "name": "iobroker.impfterminmonitor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/puller23/ioBroker.impfterminmonitor.git"
+  },
+  "scripts": {
+    "check": "tsc --noEmit -p tsconfig.check.json",
+    "lint": "eslint",
+    "test": "npm run test:js && npm run test:package",
+    "test:integration": "mocha test/integration --exit",
+    "test:js": "mocha --config test/mocharc.custom.json \"{!(node_modules|test)/**/*.test.js,*.test.js,test/**/test!(PackageFiles|Startup).js}\"",
+    "test:package": "mocha test/package --exit",
+    "test:unit": "mocha test/unit --exit"
+  },
+  "version": "0.0.1"
+}

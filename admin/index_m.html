@@ -1,0 +1,173 @@
+<html>
+
+<head>
+
+    <!-- Load ioBroker scripts and styles-->
+    <link rel="stylesheet" type="text/css" href="../../css/adapter.css" />
+    <link rel="stylesheet" type="text/css" href="../../lib/css/materialize.css">
+
+    <script type="text/javascript" src="../../lib/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+
+    <script type="text/javascript" src="../../js/translate.js"></script>
+    <script type="text/javascript" src="../../lib/js/materialize.js"></script>
+    <script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+    <!-- Load our own files -->
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <script type="text/javascript" src="words.js"></script>
+
+    <script type="text/javascript">
+        var retryTimer = [];
+        var _onChange = null;
+        var getAllVaccationCenter = null;
+
+        function loadAllVaccationCenter(settings) {
+            const result = getObject('impfterminmonitor.0.allLocations', (err, state) => {
+                // Error handling
+                if (!state.native.allVaccationCenter)
+                {
+                    console.log('VaccationCenter not yet present');
+                    // Reset Timer
+                    if (retryTimer['VaccationCenter']) {
+                        clearTimeout(retryTimer['VaccationCenter']);
+                        retryTimer['VaccationCenter'] = null;
+                    }
+
+                    retryTimer['VaccationCenter'] = setTimeout(() => {
+                        loadAllVaccationCenter(settings);
+                    }, 1000);
+                }
+                else
+                {
+                    // Clear retry timer when running
+                    if (retryTimer['VaccationCenter']) {
+                        clearTimeout(retryTimer['VaccationCenter']);
+                        retryTimer['VaccationCenter'];
+                    }
+
+                    allVaccationCenter = state.native.allVaccationCenter;
+                    var size = Object.keys(allVaccationCenter).length;
+                    console.log('allVaccationCenter.length' + size);
+
+                    var $allVaccationCenter = $('#allVaccationCenter');
+
+                    var text = '';
+                    console.log('selectedVaccationCenter:' + settings.selectedVaccationCenter);
+                    for (var i in allVaccationCenter) {
+                        console.log(i + ':' + (settings.selectedVaccationCenter.indexOf(parseInt(i)) !== -1 ? 'checked ' : ''));
+                        //console.log('key:' + i + ':' + allVaccationCenter[i]);
+                        var bold = allVaccationCenter[i];
+                        text += (bold ? '<br/>' : '') + '<label class="col s4 input-field">' +
+                        '<input type="checkbox" class="selectedvaccationcenter" ' + (settings.selectedVaccationCenter.indexOf(parseInt(i)) !== -1 ? 'checked ' : '') + ' data-selectedvaccationcenter="' + i + '" />' +
+                        //'<input type="checkbox" class="selectedvaccationcenter" ' + ' data-selectedvaccationcenter="' + i + '" />' +
+                        '<span class="black-text">' +  _(allVaccationCenter[i]) + '</span>' +
+                        '</label>';
+
+                    }
+                    $allVaccationCenter.html(text);
+                }
+                $('.selectedvaccationcenter').on('change', function () {
+                    _onChange()
+                });
+                // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+                M && M.updateTextFields();
+            });
+        }
+        // This will be called by the admin adapter when the settings page loads
+        function load(settings, onChange) {
+            if (!settings) return;
+            _onChange = onChange;
+
+            settings.allVaccationCenter = settings.allVaccationCenter || [];
+
+            $('.value').each(function () {
+                var $key = $(this);
+                var id = $key.attr('id');
+                if ($key.attr('type') === 'checkbox') {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.prop('checked', settings[id])
+                        .on('change', () => onChange())
+                        ;
+                } else {
+                    // do not call onChange direct, because onChange could expect some arguments
+                    $key.val(settings[id])
+                        .on('change', () => onChange())
+                        .on('keyup', () => onChange())
+                        ;
+                }
+            });
+
+            loadAllVaccationCenter(settings);
+
+            //onChange(false);
+            _onChange(false)
+            // reinitialize all the Materialize labels on the page if you are dynamically adding inputs:
+            //if (M) M.updateTextFields();
+        }
+
+        // This will be called by the admin adapter when the user presses the save button
+        function save(callback) {
+            // example: select elements with class=value and build settings object
+            var obj = {
+                selectedVaccationCenter: []
+
+            };
+
+            $('.selectedvaccationcenter').each(function () {
+                if ($(this).prop('checked')) {
+                    obj.selectedVaccationCenter.push($(this).data('selectedvaccationcenter'));
+                    console.log('selectedvaccationcenter_push: ' + $(this).data('selectedvaccationcenter'));
+                }
+            });
+
+
+            $('.value').each(function () {
+                var $this = $(this);
+                if ($this.attr('type') === 'checkbox') {
+                    obj[$this.attr('id')] = $this.prop('checked');
+                } else if ($this.attr('type') === 'number') {
+                    obj[$this.attr('id')] = parseFloat($this.val());
+                } else {
+                    obj[$this.attr('id')] = $this.val();
+                }
+            });
+            callback(obj);
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <div class="m adapter-container">
+
+        <div class="row">
+            <div class="col s12 m4 l2">
+                <img src="impfterminmonitor.png" class="logo">
+            </div>
+        </div>
+        <div class="row">
+            <!-- Main section vaccation locations selector -->
+            <div id="tab-main" class="col s12 page">
+                <div class="section">
+                    <h6 class="center translate">Please select desired vaccation locations 1.0</h6>
+                </div>
+
+                <!-- Create list of all vaccation locations -->
+                <div class="row" id="allVaccationCenter">
+                    <div class="progress">
+                        <div class="indeterminate"></div>
+                    </div>
+                    <h6 class="center translate">Vaccation locations selection not (yet) available, adapter must successfully run 1 time to get all vaccation locations!</h6>
+                </div>
+                <!-- Create list of all vaccation locations -->
+            </div>
+            <!-- Main section vaccation locations selector -->
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+{
+    "common": {
+        "name": "impfterminmonitor",
+        "version": "0.0.1",
+        "news": {
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "titleLang": {
+            "en": "Impfterminmonitor",
+            "de": "Impfterminmonitor",
+            "ru": "Impfterminmonitor",
+            "pt": "Impfterminmonitor",
+            "nl": "Impfterminmonitor",
+            "fr": "Impfterminmonitor",
+            "it": "Impfterminmonitor",
+            "es": "Impfterminmonitor",
+            "pl": "Impfterminmonitor",
+            "zh-cn": "不定期监测"
+        },
+        "desc": {
+            "en": "impfterminmonitor",
+            "de": "impfterminmonitor",
+            "ru": "имптерминмонитор",
+            "pt": "impfterminmonitor",
+            "nl": "impfterminmonitor",
+            "fr": "impfterminmonitor",
+            "it": "impfterminmonitor",
+            "es": "impfterminmonitor",
+            "pl": "impfterminmonitor",
+            "zh-cn": "不定期监护人"
+        },
+        "authors": [
+            "puller23 <puller23@ibartels.de>"
+        ],
+        "keywords": [
+            "ioBroker",
+            "template",
+            "Smart Home",
+            "home automation"
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "icon": "impfterminmonitor.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/puller23/ioBroker.impfterminmonitor/master/admin/impfterminmonitor.png",
+        "readme": "https://github.com/puller23/ioBroker.impfterminmonitor/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "schedule",
+        "schedule": "*/5 * * * *",
+        "allowInit": true,
+        "type": "health",
+        "compact": true,
+        "connectionType": "cloud",
+        "dataSource": "poll",
+        "materialize": true,
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ]
+    },
+    "native": {
+        "getAllVaccationCenter": false,
+        "selectedVaccationCenter": [
+            ""
+        ]
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "allLocations",
+            "type": "state",
+            "common": {
+                "role": "",
+                "name": "Store for all Locations",
+                "type": "string",
+                "read": true,
+                "write": true,
+                "def": 0
+            },
+            "native": {}
+        }
+    ]
+}
